@@ -1,4 +1,5 @@
 #!/bin/bash
+[[ $OSTYPE == 'darwin'* ]] && alias date=gdate
 
 function import_csv() {
   cd tools
@@ -7,8 +8,8 @@ function import_csv() {
 }
 
 # Download latest data
-start=$(gdate -d "(date) - 2 weeks" +%F)
-week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
+start=$(date -d "(date) - 2 weeks" +%F)
+week=$(date -d $start +%Y)"_"$(date -d $start +%U)
 wget https://s3.mortality.watch/data/mortality/deu/deaths.csv \
   -O data/de/Tote_${week}.csv
 
@@ -22,12 +23,12 @@ rm data/population.tsv data/einwohner.csv
 
 ln -sf "de/esp2013.csv" "data/population_std.csv"
 
-start=$(gdate -d "(date) - 10 weeks" +%F)
-end=$(gdate -d "(date) - 3 weeks" +%F)
+start=$(date -d "(date) - 10 weeks" +%F)
+end=$(date -d "(date) - 3 weeks" +%F)
 
 while ! [[ $start > $end ]]; do
-  start=$(gdate -d "$start + 1 week" +%F)
-  week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
+  start=$(date -d "$start + 1 week" +%F)
+  week=$(date -d $start +%Y)"_"$(date -d $start +%U)
 
   ln -sf "de/Tote_${week}.csv" "data/deaths.csv"
   import_csv deaths.csv deaths

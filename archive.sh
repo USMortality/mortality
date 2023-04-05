@@ -1,4 +1,5 @@
 #!/bin/bash
+[[ $OSTYPE == 'darwin'* ]] && alias date=gdate
 
 function import_csv() {
     cd tools
@@ -30,11 +31,11 @@ function archive() {
 mysql -h 127.0.0.1 -u root -e "SET GLOBAL local_infile=1;"
 
 if [ "$1" = "project" ]; then
-    start=$(gdate -d "(date) - 10 weeks" +%F)
+    start=$(date -d "(date) - 10 weeks" +%F)
 else
-    start=$(gdate -d "(date) - 3 weeks" +%F)
+    start=$(date -d "(date) - 3 weeks" +%F)
 fi
-end=$(gdate -d "(date) - 3 weeks" +%F)
+end=$(date -d "(date) - 3 weeks" +%F)
 
 # Population
 mysql -h 127.0.0.1 -u root -e "DROP DATABASE IF EXISTS population;"
@@ -42,14 +43,14 @@ import_csv population.csv population
 import_csv population_std.csv population
 
 # Single week
-# week=$(gdate -d $end +%Y)"_"$(gdate -d $end +%U)
+# week=$(date -d $end +%Y)"_"$(date -d $end +%U)
 # archive $week
 
 # Process death files for last n weeks
 mysql -h 127.0.0.1 -u root -e "DROP DATABASE IF EXISTS archive;"
 while ! [[ $start > $end ]]; do
-    start=$(gdate -d "$start + 1 week" +%F)
-    week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
+    start=$(date -d "$start + 1 week" +%F)
+    week=$(date -d $start +%Y)"_"$(date -d $start +%U)
     archive "${week}"
 done
 

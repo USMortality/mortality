@@ -1,4 +1,5 @@
 #!/bin/bash
+[[ $OSTYPE == 'darwin'* ]] && alias date=gdate
 
 function import_csv() {
   cd tools
@@ -7,7 +8,7 @@ function import_csv() {
 }
 
 # Update Data
-date=$(gdate --date="14 days ago" +"%Y")"_"$(gdate --date="14 days ago" +"%U")
+date=$(date --date="14 days ago" +"%Y")"_"$(date --date="14 days ago" +"%U")
 wget "https://data.cdc.gov/api/views/y5bj-9g5w/rows.csv?accessType=DOWNLOAD" \
   -O "data/us/Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${date}.csv"
 
@@ -22,16 +23,16 @@ mysql -h 127.0.0.1 -u root -e "SET GLOBAL sql_mode = '';"
 ln -sf "us/population20152021.csv" "data/population.csv"
 ln -sf "us/std_population2000.csv" "data/population_std.csv"
 
-start=$(gdate -d "(date) - 10 weeks" +%F)
-end=$(gdate -d "(date) - 3 weeks" +%F)
+start=$(date -d "(date) - 10 weeks" +%F)
+end=$(date -d "(date) - 3 weeks" +%F)
 
 # Import Covid Deaths
 ln -sf "us/Weekly_Counts_of_Deaths_by_State_and_Select_Causes_2014-2019.csv" "data/covid_deaths_2014-2019.csv"
 import_csv "covid_deaths_2014-2019.csv" deaths
 
 while ! [[ $start > $end ]]; do
-  start=$(gdate -d "$start + 1 week" +%F)
-  week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
+  start=$(date -d "$start + 1 week" +%F)
+  week=$(date -d $start +%Y)"_"$(date -d $start +%U)
   echo "Week $week"
 
   ln -sf "us/Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${week}.csv" "data/deaths.csv"

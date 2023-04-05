@@ -27,7 +27,7 @@ cd $(dirname $FILE_PATH)
 ln -s "$FILE" "$TABLE_NAME.csv"
 
 # Import data.
-mysqlimport --local -h 127.0.0.1 -u root --columns=$COLUMNS --fields-terminated-by="," --fields-optionally-enclosed-by='"' --ignore-lines=1 $DB "$TABLE_NAME.csv"
+mysqlimport --local -h 127.0.0.1 -u root --fields-terminated-by="," --fields-optionally-enclosed-by='"' --ignore-lines=1 $DB "$TABLE_NAME.csv"
 
 unlink "$TABLE_NAME.csv"
 cd ~-
