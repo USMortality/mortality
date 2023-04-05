@@ -6,30 +6,28 @@ function import_csv() {
   cd ~-
 }
 
-# Download latest data
-start=$(date -d "(date) - 2 weeks" +%F)
-week=$(date -d $start +%Y)"_"$(date -d $start +%U)
-wget https://s3.mortality.watch/data/mortality/deu/deaths.csv \
-  -O data/de/Tote_${week}.csv
-
 # Process data
-ln -sf "de/Einwohner.csv" "data/einwohner.csv"
+wget https://s3.mortality.watch/data/population/deu/Einwohner.csv \
+  -O data/einwohner.csv
 import_csv einwohner.csv population
 mysql -h 127.0.0.1 -u root population <queries/de/create_population.sql >"data/population.tsv"
 rm ./data/population.csv
 cat ./data/population.tsv | sed -E 's/\t/,/g' >./data/population.csv
 rm data/population.tsv data/einwohner.csv
 
-ln -sf "de/esp2013.csv" "data/population_std.csv"
+wget https://s3.mortality.watch/data/population/esp2013.csv \
+  -O "data/population_std.csv"
 
-start=$(date -d "(date) - 10 weeks" +%F)
-end=$(date -d "(date) - 3 weeks" +%F)
+start=$(gdate -d "(gdate) - 10 weeks" +%F)
+end=$(gdate -d "(gdate) - 3 weeks" +%F)
 
 while ! [[ $start > $end ]]; do
-  start=$(date -d "$start + 1 week" +%F)
-  week=$(date -d $start +%Y)"_"$(date -d $start +%U)
+  start=$(gdate -d "$start + 1 week" +%F)
+  week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
 
-  ln -sf "de/Tote_${week}.csv" "data/deaths.csv"
+  wget https://s3.mortality.watch/data/deaths/deu/Tote_${week}.csv \
+    -O data/deaths.csv
+
   import_csv deaths.csv deaths
 
   # Create combined table
