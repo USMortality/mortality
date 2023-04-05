@@ -170,7 +170,8 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-out/
+out/*.csv
+out/*.tsv
 data/deaths.csv
 data/deaths*
 data/population.csv
