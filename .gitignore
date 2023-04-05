@@ -172,5 +172,6 @@ dist
 
 out/
 data/deaths.csv
+data/deaths*
 data/population.csv
 data/population_std.csv
