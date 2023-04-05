@@ -18,12 +18,12 @@ rm data/population.tsv data/einwohner.csv
 wget https://s3.mortality.watch/data/population/esp2013.csv \
   -O "data/population_std.csv"
 
-start=$(gdate -d "(gdate) - 10 weeks" +%F)
-end=$(gdate -d "(gdate) - 3 weeks" +%F)
+start=$(date -d "(date) - 10 weeks" +%F)
+end=$(date -d "(date) - 3 weeks" +%F)
 
 while ! [[ $start > $end ]]; do
-  start=$(gdate -d "$start + 1 week" +%F)
-  week=$(gdate -d $start +%Y)"_"$(gdate -d $start +%U)
+  start=$(date -d "$start + 1 week" +%F)
+  week=$(date -d $start +%Y)"_"$(date -d $start +%U)
 
   wget https://s3.mortality.watch/data/deaths/deu/Tote_${week}.csv \
     -O data/deaths.csv
