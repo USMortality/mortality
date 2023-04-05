@@ -7,7 +7,6 @@
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -172,7 +171,6 @@ dist
 
 out/*.csv
 out/*.tsv
-data/deaths.csv
-data/deaths*
-data/population.csv
-data/population_std.csv
+data/*.csv
+data/*.tsv
+data/*.zip
