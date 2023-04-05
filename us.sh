@@ -1,5 +1,4 @@
 #!/bin/bash
-[[ $OSTYPE == 'darwin'* ]] && alias date=date
 
 function import_csv() {
   cd tools
