@@ -67,3 +67,5 @@ mysql -h 127.0.0.1 -u root deaths <queries/create_additional_age_groups.sql
 
 # Calculate Mortality
 ./export.sh
+
+rm data/deaths_*
