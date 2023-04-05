@@ -34,8 +34,6 @@ while ! [[ $start > $end ]]; do
   mysql -h 127.0.0.1 -u root deaths <queries/de/create_deaths_week.sql >"data/deaths_${week}.tsv"
 done
 
-rm data/deaths.csv
-
 ./archive.sh
 
 mc cp ../mortality/out/deaths_week_s.csv minio/data/mortality/deu/deaths_week_s.csv

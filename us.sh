@@ -66,6 +66,17 @@ while ! [[ $start > $end ]]; do
   mysql -h 127.0.0.1 -u root -e "SELECT * FROM deaths.deaths_week ORDER BY state, age_group, year, week;" >"data/deaths_${week}.tsv"
 done
 
-rm data/*
-
 ./archive.sh project
+
+mc cp ../mortality/out/deaths_week_s.csv minio/data/mortality/usa/deaths_week_s.csv
+mc cp ../mortality/out/mortality_week_s.csv minio/data/mortality/usa/mortality_week_s.csv
+mc cp ../mortality/out/adj_mortality_week_s.csv minio/data/mortality/usa/adj_mortality_week_s.csv
+mc cp ../mortality/out/adj_mortality_std_week_s.csv minio/data/mortality/usa/adj_mortality_std_week_s.csv
+mc cp ../mortality/out/exp_zscore_week.csv minio/data/mortality/usa/zscore_week.csv
+mc cp ../mortality/out/exp_excess_percent_week.csv minio/data/mortality/usa/excess_percent_week.csv
+mc cp ../mortality/out/exp_excess_deaths_cumulative.csv minio/data/mortality/usa/excess_deaths_cumulative.csv
+mc cp ../mortality/out/exp_excess_deaths_yearly_cumulative.csv minio/data/mortality/usa/excess_deaths_yearly_cumulative.csv
+mc cp ../mortality/out/exp_excess_deaths_seasonal_cumulative.csv minio/data/mortality/usa/excess_deaths_seasonal_cumulative.csv
+mc cp ../mortality/out/exp_excess_mortality_cumulative.csv minio/data/mortality/usa/excess_mortality_cumulative.csv
+mc cp ../mortality/out/exp_excess_mortality_percent_cumulative.csv minio/data/mortality/usa/excess_mortality_percent_cumulative.csv
+mc cp ../mortality/out/exp_excess_mortality_rank_week.csv minio/data/mortality/usa/excess_mortality_rank_week.csv
