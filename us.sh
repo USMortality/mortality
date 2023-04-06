@@ -6,6 +6,8 @@ function import_csv() {
   cd ~-
 }
 
+rm -rf data/*
+
 # Process data
 mysql -h 127.0.0.1 -u root -e \
   "SET GLOBAL collation_connection = 'utf8mb4_general_ci';"
@@ -68,15 +70,40 @@ done
 
 ./archive.sh project
 
-mc cp ../mortality/out/deaths_week_s.csv minio/data/mortality/usa/deaths_week_s.csv
-mc cp ../mortality/out/mortality_week_s.csv minio/data/mortality/usa/mortality_week_s.csv
-mc cp ../mortality/out/adj_mortality_week_s.csv minio/data/mortality/usa/adj_mortality_week_s.csv
-mc cp ../mortality/out/adj_mortality_std_week_s.csv minio/data/mortality/usa/adj_mortality_std_week_s.csv
-mc cp ../mortality/out/exp_zscore_week.csv minio/data/mortality/usa/zscore_week.csv
-mc cp ../mortality/out/exp_excess_percent_week.csv minio/data/mortality/usa/excess_percent_week.csv
-mc cp ../mortality/out/exp_excess_deaths_cumulative.csv minio/data/mortality/usa/excess_deaths_cumulative.csv
-mc cp ../mortality/out/exp_excess_deaths_yearly_cumulative.csv minio/data/mortality/usa/excess_deaths_yearly_cumulative.csv
-mc cp ../mortality/out/exp_excess_deaths_seasonal_cumulative.csv minio/data/mortality/usa/excess_deaths_seasonal_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_cumulative.csv minio/data/mortality/usa/excess_mortality_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_percent_cumulative.csv minio/data/mortality/usa/excess_mortality_percent_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_rank_week.csv minio/data/mortality/usa/excess_mortality_rank_week.csv
+cd out
+
+zip -9 deaths_week_s.csv.zip deaths_week_s.csv
+mc cp deaths_week_s.csv minio/data/mortality/usa/deaths_week_s.csv
+
+zip -9 mortality_week_s.csv.zip mortality_week_s.csv
+mc cp mortality_week_s.csv.zip minio/data/mortality/usa/mortality_week_s.csv.zip
+
+zip -9 adj_mortality_week_s.csv.zip adj_mortality_week_s.csv
+mc cp adj_mortality_week_s.csv.zip minio/data/mortality/usa/adj_mortality_week_s.csv.zip
+
+zip -9 adj_mortality_std_week_s.csv.zip adj_mortality_std_week_s.csv
+mc cp adj_mortality_std_week_s.csv.zip minio/data/mortality/usa/adj_mortality_std_week_s.csv.zip
+
+zip -9 exp_zscore_week.csv.zip exp_zscore_week.csv
+mc cp exp_zscore_week.csv.zip minio/data/mortality/usa/zscore_week.csv.zip
+
+zip -9 exp_excess_percent_week.csv.zip exp_excess_percent_week.csv
+mc cp exp_excess_percent_week.csv.zip minio/data/mortality/usa/excess_percent_week.csv.zip
+
+zip -9 exp_excess_deaths_cumulative.csv.zip exp_excess_deaths_cumulative.csv
+mc cp exp_excess_deaths_cumulative.csv.zip minio/data/mortality/usa/excess_deaths_cumulative.csv.zip
+
+zip -9 exp_excess_deaths_yearly_cumulative.csv.zip exp_excess_deaths_yearly_cumulative.csv
+mc cp exp_excess_deaths_yearly_cumulative.csv.zip minio/data/mortality/usa/excess_deaths_yearly_cumulative.csv.zip
+
+zip -9 exp_excess_deaths_seasonal_cumulative.csv.zip exp_excess_deaths_seasonal_cumulative.csv
+mc cp exp_excess_deaths_seasonal_cumulative.csv.zip minio/data/mortality/usa/excess_deaths_seasonal_cumulative.csv.zip
+
+zip -9 exp_excess_mortality_cumulative.csv.zip exp_excess_mortality_cumulative.csv
+mc cp exp_excess_mortality_cumulative.csv.zip minio/data/mortality/usa/excess_mortality_cumulative.csv.zip
+
+zip -9 exp_excess_mortality_percent_cumulative.csv.zip exp_excess_mortality_percent_cumulative.csv
+mc cp exp_excess_mortality_percent_cumulative.csv.zip minio/data/mortality/usa/excess_mortality_percent_cumulative.csv.zip
+
+zip -9 exp_excess_mortality_rank_week.csv.zip exp_excess_mortality_rank_week.csv
+mc cp exp_excess_mortality_rank_week.csv.zip minio/data/mortality/usa/excess_mortality_rank_week.csv.zip

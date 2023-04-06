@@ -36,15 +36,15 @@ done
 
 ./archive.sh
 
-mc cp ../mortality/out/deaths_week_s.csv minio/data/mortality/deu/deaths_week_s.csv
-mc cp ../mortality/out/mortality_week_s.csv minio/data/mortality/deu/mortality_week_s.csv
-mc cp ../mortality/out/adj_mortality_week_s.csv minio/data/mortality/deu/adj_mortality_week_s.csv
-mc cp ../mortality/out/adj_mortality_std_week_s.csv minio/data/mortality/deu/adj_mortality_std_week_s.csv
-mc cp ../mortality/out/exp_zscore_week.csv minio/data/mortality/deu/zscore_week.csv
-mc cp ../mortality/out/exp_excess_percent_week.csv minio/data/mortality/deu/excess_percent_week.csv
-mc cp ../mortality/out/exp_excess_deaths_cumulative.csv minio/data/mortality/deu/excess_deaths_cumulative.csv
-mc cp ../mortality/out/exp_excess_deaths_yearly_cumulative.csv minio/data/mortality/deu/excess_deaths_yearly_cumulative.csv
-mc cp ../mortality/out/exp_excess_deaths_seasonal_cumulative.csv minio/data/mortality/deu/excess_deaths_seasonal_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_cumulative.csv minio/data/mortality/deu/excess_mortality_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_percent_cumulative.csv minio/data/mortality/deu/excess_mortality_percent_cumulative.csv
-mc cp ../mortality/out/exp_excess_mortality_rank_week.csv minio/data/mortality/deu/excess_mortality_rank_week.csv
+mc cp out/deaths_week_s.csv minio/data/mortality/deu/deaths_week_s.csv
+mc cp out/mortality_week_s.csv minio/data/mortality/deu/mortality_week_s.csv
+mc cp out/adj_mortality_week_s.csv minio/data/mortality/deu/adj_mortality_week_s.csv
+mc cp out/adj_mortality_std_week_s.csv minio/data/mortality/deu/adj_mortality_std_week_s.csv
+mc cp out/exp_zscore_week.csv minio/data/mortality/deu/zscore_week.csv
+mc cp out/exp_excess_percent_week.csv minio/data/mortality/deu/excess_percent_week.csv
+mc cp out/exp_excess_deaths_cumulative.csv minio/data/mortality/deu/excess_deaths_cumulative.csv
+mc cp out/exp_excess_deaths_yearly_cumulative.csv minio/data/mortality/deu/excess_deaths_yearly_cumulative.csv
+mc cp out/exp_excess_deaths_seasonal_cumulative.csv minio/data/mortality/deu/excess_deaths_seasonal_cumulative.csv
+mc cp out/exp_excess_mortality_cumulative.csv minio/data/mortality/deu/excess_mortality_cumulative.csv
+mc cp out/exp_excess_mortality_percent_cumulative.csv minio/data/mortality/deu/excess_mortality_percent_cumulative.csv
+mc cp out/exp_excess_mortality_rank_week.csv minio/data/mortality/deu/excess_mortality_rank_week.csv
