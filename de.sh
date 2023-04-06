@@ -6,6 +6,9 @@ function import_csv() {
   cd ~-
 }
 
+rm -rf data/*
+rm -rf out/*
+
 # Process data
 wget https://s3.mortality.watch/data/population/deu/Einwohner.csv \
   -O data/einwohner.csv

@@ -171,6 +171,7 @@ dist
 
 out/*.csv
 out/*.tsv
+out/*.zip
 data/*.csv
 data/*.tsv
 data/*.zip
