@@ -57,15 +57,6 @@ while ! [[ $start > $end ]]; do
   mysql -h 127.0.0.1 -u root deaths <queries/us/create_all_cause_covid_week.sql
   mysql -h 127.0.0.1 -u root deaths <queries/us/create_deaths_week.sql
 
-  # Impute missing deaths, 6x for potentially all age groups.
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/impute_missing_deaths.sql
-
-  mysql -h 127.0.0.1 -u root -e "UPDATE deaths.deaths_week SET deaths = 0 WHERE isNull(deaths) = 1;"
   mysql -h 127.0.0.1 -u root -e "SELECT * FROM deaths.deaths_week ORDER BY state, age_group, year, week;" >"data/deaths_${week}.tsv"
 done
 
