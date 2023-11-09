@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $(uname) == "Darwin" ]]; then
+    date() { gdate "$@"; }
+fi
+
 function import_csv() {
     cd tools
     ./import_csv.sh "../data/${1}" $2

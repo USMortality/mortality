@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $(uname) == "Darwin" ]]; then
+  date() { gdate "$@"; }
+fi
+
 function import_csv() {
   cd tools
   ./import_csv.sh "../data/${1}" $2
@@ -22,45 +26,20 @@ wget https://s3.mortality.watch/data/population/usa/std_population2000.csv \
 start=$(date -d "(date) - 10 weeks" +%F)
 end=$(date -d "(date) - 3 weeks" +%F)
 
-# Import Covid Deaths
-wget https://s3.mortality.watch/data/deaths/usa/Weekly_Counts_of_Deaths_by_State_and_Select_Causes_2014-2019.csv \
-  -O data/covid_deaths_2014-2019.csv
-
-import_csv "covid_deaths_2014-2019.csv" deaths
-
 while ! [[ $start > $end ]]; do
   start=$(date -d "$start + 1 week" +%F)
   week=$(date -d $start +%Y)"_"$(date -d $start +%U)
-  echo "Week $week"
 
-  wget https://s3.mortality.watch/data/deaths/usa/Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${week}.csv.zip \
-    -O data/Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${week}.csv.zip
-  cd data
-  unzip Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${week}.csv.zip
-  ln -sf "Weekly_counts_of_deaths_by_jurisdiction_and_age_group_${week}.csv" "deaths.csv"
-  cd ~-
+  wget https://s3.mortality.watch/data/deaths/usa/deaths_weekly_${week}.csv \
+    -O data/deaths.csv
+
   import_csv deaths.csv deaths
 
-  # Import Latest Covid Deaths
-  cd data
-  wget https://s3.mortality.watch/data/deaths/usa/Weekly_counts_of_deaths_by_state_and_cause_${week}.csv \
-    -O Weekly_counts_of_deaths_by_state_and_cause_${week}.csv
-  ln -sf "Weekly_counts_of_deaths_by_state_and_cause_${week}.csv" "covid_deaths.csv"
-  csvcut --columns=2,3,4,6,20 covid_deaths.csv >covid_deaths.csv.bak
-  sed -i.bak -e 's/"COVID-19 (U071, Underlying Cause of Death)"/"covid19_u071_underlying"/g' covid_deaths.csv.bak
-  mv covid_deaths.csv.bak covid_deaths.csv
-  rm covid_deaths.csv.bak.bak
-  cd ~-
-  import_csv covid_deaths.csv deaths
-
   # Create combined table
-  mysql -h 127.0.0.1 -u root deaths <queries/us/create_all_cause_covid_week.sql
-  mysql -h 127.0.0.1 -u root deaths <queries/us/create_deaths_week.sql
-
-  mysql -h 127.0.0.1 -u root -e "SELECT * FROM deaths.deaths_week ORDER BY state, age_group, year, week;" >"data/deaths_${week}.tsv"
+  mysql -h 127.0.0.1 -u root deaths <queries/us/create_deaths_week.sql >"data/deaths_${week}.tsv"
 done
 
-./archive.sh project
+./archive.sh
 
 cd out
 
