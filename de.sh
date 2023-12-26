@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $(uname) == "Darwin" ]]; then
+  date() { gdate "$@"; }
+fi
+
 function import_csv() {
   cd tools
   ./import_csv.sh "../data/${1}" $2
@@ -28,8 +32,19 @@ while ! [[ $start > $end ]]; do
   start=$(date -d "$start + 1 week" +%F)
   week=$(date -d $start +%Y)"_"$(date -d $start +%U)
 
-  wget https://s3.mortality.watch/data/deaths/deu/Tote_${week}.csv \
-    -O data/deaths.csv
+  rm data/deaths.csv
+
+  if wget --spider --server-response \
+    "https://s3.mortality.watch/data/deaths/deu/Tote_${week}.csv" \
+    2>&1 | grep "HTTP/1.1 404"; then
+    echo "File for $week is missing!"
+    exit 1
+  else
+    wget \
+      "https://s3.mortality.watch/data/deaths/deu/Tote_${week}.csv" \
+      -O "data/deaths.csv"
+    echo "File downloaded successfully"
+  fi
 
   import_csv deaths.csv deaths
 

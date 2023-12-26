@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 if [[ $(uname) == "Darwin" ]]; then
   date() { gdate "$@"; }
@@ -30,8 +31,19 @@ while ! [[ $start > $end ]]; do
   start=$(date -d "$start + 1 week" +%F)
   week=$(date -d $start +%Y)"_"$(date -d $start +%U)
 
-  wget https://s3.mortality.watch/data/deaths/usa/deaths_weekly_${week}.csv \
-    -O data/deaths.csv
+  rm data/deaths.csv
+
+  if wget --spider --server-response \
+    "https://s3.mortality.watch/data/deaths/usa/deaths_weekly_${week}.csv" \
+    2>&1 | grep "HTTP/1.1 404"; then
+    echo "File for $week is missing!"
+    exit 1
+  else
+    wget \
+      "https://s3.mortality.watch/data/deaths/usa/deaths_weekly_${week}.csv" \
+      -O "data/deaths.csv"
+    echo "File downloaded successfully"
+  fi
 
   import_csv deaths.csv deaths
 
