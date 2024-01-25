@@ -30,6 +30,9 @@ end=$(date -d "(date) - 3 weeks" +%F)
 while ! [[ $start > $end ]]; do
   start=$(date -d "$start + 1 week" +%F)
   week=$(date -d $start +%Y)"_"$(date -d $start +%U)
+  if [ "$week" == "$(date -d $start +%Y)_00" ]; then
+    continue
+  fi
 
   rm data/deaths.csv
 
